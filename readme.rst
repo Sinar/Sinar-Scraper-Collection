@@ -13,11 +13,13 @@ Use the pdftotext tools of xpdf package to convert pdf to text.
 Scraper
 ---------  
   
-- handsard_extrator.py
-  This is the scraper for the hansard. Currently it handle question and answer section(I think), as that is the one of the sane one to process. 
-  So this is a on going project
+
+- hansard_parser.py
+  
+  this split question and answer into different files, work in progress. it only handle question and answer, but there is more in the hansard
   
 - order_paper_parser.py 
+
   This is to parse the order paper in the parliament, but not much user I think
   
   
