@@ -7,6 +7,7 @@ Preprocessing
 Use the pdftotext tools of xpdf package to convert pdf to text. 
 
 ::
+
   pdftotext -layout pdf_file.pdf
 
 Scraper
