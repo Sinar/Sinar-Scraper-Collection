@@ -1,4 +1,5 @@
 import re
+import string
 
 
 BLOCK_START = False
@@ -19,7 +20,7 @@ def parse(finput):
             BLOCK_START = True
             data = output
         
-        elif re.match(r'^AUM',output):
+        elif re.search(r'AUM',output):
             pass
         
         elif re.match(r'^\s+$',output):
@@ -33,6 +34,11 @@ def parse(finput):
         
         elif re.match(r'^\s+\d+',output):
             pass
+
+        elif re.search('UCAPAN',output):
+            if BLOCK_START:
+                yield data
+            BLOCK_START = False
             
         else:
             if BLOCK_START:
@@ -41,7 +47,8 @@ def parse(finput):
         try:       
             output = finput.next()
         except:
-            yield data
+            if BLOCK_START:
+                yield data
             break
         
     
@@ -49,4 +56,16 @@ def parse(finput):
 def driver(filename):
     f = open(filename)
     for i in parse(f):
-        print i
+        if i:
+            t = i.split('\n')
+            data = {}
+            temp = t[1].split('[')
+            data['name'] = string.rstrip(string.lstrip(temp[0]))
+            temp = temp[1].split(']')
+            place = temp[0]
+            data['place'] = string.rstrip(string.lstrip(place))
+
+            data['value'] = ' '.join([string.lstrip(j) for j in t[2:]])
+            if re.search('minta',temp[1]):
+                data['value'] = temp[1] + ' ' + data['value']
+            yield data
